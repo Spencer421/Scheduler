@@ -16,9 +16,66 @@
         </h1>
     </header>
 
+    
+        <div style="margin-bottom: 20px; font-family: Arial, sans-serif; font-weight: bold; text-align: center;">
+            <label for="Building_dropdown">Filter by Building:</label>
+            <select id="Building_dropdown" style="padding: 5px; font-size: 16px;">
+                <option value="">Show All Buildings</option><option value="Beacom">Beacom</option><option value="East Hall">East Hall</option>
+            </select>
+        </div>
+    
+
     <div class="table-container">
-        <html><head><meta charset="utf-8"/><title>SheetJS Table Export</title></head><body><table><tr><td data-t="s" data-v="Building" id="sjs-A1">Building</td><td data-t="s" data-v="Days" id="sjs-B1">Days</td><td data-t="s" data-v="Times" id="sjs-C1">Times</td></tr><tr><td data-t="s" data-v="Beacom" id="sjs-A2">Beacom</td><td data-t="s" data-v="Monday-Friday" id="sjs-B2">Monday-Friday</td><td data-t="s" data-v="8am to 9pm" id="sjs-C2">8am to 9pm</td></tr><tr><td data-t="s" data-v="Beacom" id="sjs-A3">Beacom</td><td data-t="s" data-v="Saturday-Sunday" id="sjs-B3">Saturday-Sunday</td><td data-t="s" data-v="Closed" id="sjs-C3">Closed</td></tr></table></body></html>
+        <html><head><meta charset="utf-8"/><title>SheetJS Table Export</title></head><body><table><tr><td data-t="s" data-v="Building" id="sjs-A1">Building</td><td data-t="s" data-v="Days" id="sjs-B1">Days</td><td data-t="s" data-v="Times" id="sjs-C1">Times</td></tr><tr><td data-t="s" data-v="Beacom" id="sjs-A2">Beacom</td><td data-t="s" data-v="Monday-Friday" id="sjs-B2">Monday-Friday</td><td data-t="s" data-v="8am to 9pm" id="sjs-C2">8am to 9pm</td></tr><tr><td data-t="s" data-v="Beacom" id="sjs-A3">Beacom</td><td data-t="s" data-v="Saturday-Sunday" id="sjs-B3">Saturday-Sunday</td><td data-t="s" data-v="Closed" id="sjs-C3">Closed</td></tr><tr><td data-t="s" data-v="East Hall" id="sjs-A4">East Hall</td><td data-t="s" data-v="Monday-Friday" id="sjs-B4">Monday-Friday</td><td data-t="s" data-v="8am to 9pm" id="sjs-C4">8am to 9pm</td></tr><tr><td data-t="s" data-v="East Hall" id="sjs-A5">East Hall</td><td data-t="s" data-v="Saturday-Sunday" id="sjs-B5">Saturday-Sunday</td><td data-t="s" data-v="Closed" id="sjs-C5">Closed</td></tr></table></body></html>
     </div>
+
+    
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropdown = document.getElementById('Building_dropdown');
+        const table = document.querySelector('table');
+        const buildColIdx = 0;
+
+        const rows = Array.from(table.querySelectorAll('tr')).slice(1);
+
+        const applyFilter = (selectedValue) => {
+            const filterValue = selectedValue.toUpperCase().trim();
+            rows.forEach(row => {
+                const cell = row.cells[buildColIdx]; 
+                if (cell) {
+                    let rowText = cell.textContent.trim();
+                    
+                    if (filterValue === "" || rowText.toUpperCase() === filterValue) {
+                        row.style.display = ""; 
+                    } else {
+                        row.style.display = "none"; 
+                    }
+                }
+            });
+        };
+
+        // Check the URL for the '?building=NAME' parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const buildingFromUrl = urlParams.get('building');
+        
+        if (buildingFromUrl) {
+            const upperBuilding = buildingFromUrl.toUpperCase();
+            for (let option of dropdown.options) {
+                if (option.value.toUpperCase() === upperBuilding) {
+                    dropdown.value = option.value;
+                    break;
+                }
+            }
+            applyFilter(buildingFromUrl);
+        }
+
+        // Listen for user changing the dropdown manually
+        dropdown.addEventListener('change', (event) => {
+            applyFilter(event.target.value);
+        });
+    });
+</script>
+
 
     <footer>
         <hr>
