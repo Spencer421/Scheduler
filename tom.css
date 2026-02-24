@@ -15,7 +15,7 @@ h1 {
     background: white;
     display: flex;
     align-items: center;
-    justify-content: center; /* keeps text centered */
+    justify-content: center;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     letter-spacing: 0.5px;
     text-align: center;
@@ -112,13 +112,13 @@ footer a {
 footer a:hover {
     color: #003552;
 }
-@media screen and (max-width: 600px) {
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media screen and (max-width: 800px) {
     h1 {
         font-size: 20px; 
     }
-    h1 img {
-    height: 32px;
-    }
+
     table tr:first-child {
         display: none;
     }
@@ -155,7 +155,10 @@ footer a:hover {
     }
 
     td:nth-child(3) {
-        display: none;
+        font-size: 26px;
+        color: #000;
+        padding: 20px 15px;
+        border-top: 1px dashed #ccc;
     }
 
     td:nth-child(2) {
