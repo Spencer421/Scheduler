@@ -15,7 +15,7 @@
         <div style="margin-bottom: 20px; margin-top: 20px; font-family: Arial, sans-serif; font-weight: bold; color: white;">
             <label for="RoomID_dropdown">&#8288;Filter by Room:</label>
             <select id="RoomID_dropdown">
-                <option value="">Show All Rooms</option><option value="DBH*106">DBH*106</option><option value="DBIT*202">DBIT*202</option><option value="DBIT*235">DBIT*235</option><option value="DDPP*CONFERENCE">DDPP*CONFERENCE</option><option value="DEH*109">DEH*109</option><option value="DHH*BRINKER">DHH*BRINKER</option><option value="DHH*MONTGOMERY">DHH*MONTGOMERY</option><option value="DLIB*125 Conference Room">DLIB*125 Conference Room</option><option value="DLIB*201">DLIB*201</option><option value="DMAD*112">DMAD*112</option><option value="DMAD*134">DMAD*134</option><option value="DMAD*135">DMAD*135</option><option value="DSC*132">DSC*132</option><option value="DSC*133">DSC*133</option><option value="DTC*ALUMNI">DTC*ALUMNI</option><option value="DTC*CLUB HUB CONFERENCE ROOM">DTC*CLUB HUB CONFERENCE ROOM</option><option value="DTC*OYATE">DTC*OYATE</option><option value="DTC*STUDENT SERVICES CONFERENCE ROOM">DTC*STUDENT SERVICES CONFERENCE ROOM</option>
+                <option value="">Show All Rooms</option><option value="DBIT*202">Beacom IT 202</option><option value="DBIT*235">Beacom IT 235</option><option value="DBH*106">Beadle Hall Conference Room</option><option value="DDPP*CONFERENCE">Dakota Prairie PlayHouse Conference</option><option value="DEH*109">East Hall 109</option><option value="DHH*BRINKER">HH Brinker - 210</option><option value="DHH*MONTGOMERY">HH Montgomery - 109</option><option value="DLIB*125 Conference Room">Library 125 - Conference Room</option><option value="DLIB*201">Library 201</option><option value="DMAD*112">MadLabs Briefing Room - 112</option><option value="DMAD*134">MadLabs Conference Room - 134</option><option value="DMAD*135">MadLabs Conference Room - 135</option><option value="DSC*132">Science Center 132</option><option value="DSC*133">Science Center 133</option><option value="DTC*STUDENT SERVICES CONFERENCE ROOM">Student Services Conference Room - 120</option><option value="DTC*ALUMNI">TC Alumni Room - 26</option><option value="DTC*CLUB HUB CONFERENCE ROOM">TC Club Hub Conference Room - 126</option><option value="DTC*OYATE">TC Oyate Room - 102</option>
             </select>
         </div>
     
@@ -30,6 +30,8 @@
             "july", "august", "september", "october", "november", "december"
         ];
 
+        const ROOM_NAMES = {"DBH*106":"Beadle Hall Conference Room","DBIT*202":"Beacom IT 202","DBIT*235":"Beacom IT 235","DDPP*CONFERENCE":"Dakota Prairie PlayHouse Conference","DEB*102 CONFERENCE ROOM":"Entrepreneurial Building 102","DEH*109":"East Hall 109","DHH*BRINKER":"HH Brinker - 210","DHH*MONTGOMERY":"HH Montgomery - 109","DHH*PRES CONF ROOM":"HH President's Conference Room","DLEC*016":"LEC Conference Room - 016","DLIB*125 CONFERENCE ROOM":"Library 125 - Conference Room","DLIB*201":"Library 201","DMAD*112":"MadLabs Briefing Room - 112","DMAD*134":"MadLabs Conference Room - 134","DMAD*135":"MadLabs Conference Room - 135","DSC*132":"Science Center 132","DSC*133":"Science Center 133","DTC*ALUMNI":"TC Alumni Room - 26","DTC*CLUB HUB CONFERENCE ROOM":"TC Club Hub Conference Room - 126","DTC*OYATE":"TC Oyate Room - 102","DTC*STUDENT SERVICES CONFERENCE ROOM":"Student Services Conference Room - 120","DDPP*101":"Dakota Prairie PlayHouse Theatre","DEH*100":"East Hall 100","DSC*135":"Science Center 135","DTCB*203":"Tunheim Classroom Building 203"};
+
         const MONTH_COL = 2;
         const DATE_COL  = 3;
         const ROOM_COL  = 0;
@@ -38,7 +40,6 @@
         const table    = document.querySelector('table');
         const rows     = Array.from(table.querySelectorAll('tr')).slice(1);
 
-        
         const today = new Date();
         today.setHours(0, 0, 0, 0);
 
@@ -55,40 +56,32 @@
             if (mIdx === -1 || isNaN(dNum)) return;
 
             let year = today.getFullYear();
-            
             if (today.getMonth() === 11 && mIdx === 0) year += 1;
 
             const reservationDate = new Date(year, mIdx, dNum);
 
             if (reservationDate < today) {
                 row.style.display    = "none";
-                row.dataset.pastDate = "true"; // permanent — room filter will never undo this
+                row.dataset.pastDate = "true";
             }
         });
 
-        
-        const applyFilter = (selectedRoomID) => {
-            const filterValue = selectedRoomID.toUpperCase().trim();
+        const applyFilter = (rawID) => {
+            const filterValue = rawID.toUpperCase().trim();
             rows.forEach(row => {
-                // Never resurface a past row
                 if (row.dataset.pastDate === "true") {
                     row.style.display = "none";
                     return;
                 }
-
                 const cell = row.cells[ROOM_COL];
                 if (cell) {
-                    let rowText = cell.textContent.trim();
-                    if (rowText.startsWith("Room: ")) rowText = rowText.substring(6);
-
-                    row.style.display = (filterValue === "" || rowText.toUpperCase() === filterValue)
-                        ? ""
-                        : "none";
+                    let rowText = cell.textContent.trim().toUpperCase();
+                    if (rowText.startsWith("ROOM: ")) rowText = rowText.substring(6);
+                    row.style.display = (filterValue === "" || rowText === filterValue) ? "" : "none";
                 }
             });
         };
 
-        
         const urlParams   = new URLSearchParams(window.location.search);
         const roomFromUrl = urlParams.get('roomID');
         if (roomFromUrl) {
@@ -102,7 +95,6 @@
             applyFilter(roomFromUrl);
         }
 
-        
         dropdown.addEventListener('change', (event) => {
             applyFilter(event.target.value);
         });
