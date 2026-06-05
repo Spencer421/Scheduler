@@ -19,6 +19,14 @@ h1 img {
     height: 60px;
 }
 
+#filter-bar {
+    padding: 20px 20px 0 20px;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
 #RoomID_dropdown {
     width: 90%;
     max-width: 400px;
@@ -26,8 +34,18 @@ h1 img {
     font-size: 16px; 
     border-radius: 8px;
     border: none;
-    margin: 10px auto;
+    margin: 10px 0;
     display: block;
+}
+
+#no-reservations-msg {
+    display: none;
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 30px 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
 }
 
 .table-container {
@@ -78,8 +96,13 @@ footer {
         font-size: 20px; 
     }
     h1 img {
-    height: 30px;
+        height: 30px;
     }
+
+    #filter-bar {
+        padding: 15px 15px 0 15px;
+    }
+
     table tr:first-child {
         display: none;
     }
