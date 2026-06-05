@@ -41,11 +41,12 @@ h1 img {
 #no-reservations-msg {
     display: none;
     text-align: center;
-    color: white;
+    color: #003552;
     font-size: 18px;
     font-weight: bold;
-    padding: 30px 20px;
+    padding: 60px 20px;
     font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: #ffffff;
 }
 
 .table-container {
