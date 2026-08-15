@@ -14,9 +14,11 @@ h1 {
     background-color: white;
     display: flex;
     align-items: center;
+    gap: 12px;
 }
 h1 img {
     height: 60px;
+    flex-shrink: 0;
 }
 
 #filter-bar {
@@ -25,6 +27,7 @@ h1 img {
     font-weight: bold;
     color: white;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 #RoomID_dropdown {
@@ -34,7 +37,7 @@ h1 img {
     font-size: 16px; 
     border-radius: 8px;
     border: none;
-    margin: 10px 0;
+    margin: 10px auto;
     display: block;
 }
 
@@ -95,6 +98,7 @@ footer {
 @media screen and (max-width: 600px) {
     h1 {
         font-size: 20px; 
+        gap: 8px;
     }
     h1 img {
         height: 30px;
